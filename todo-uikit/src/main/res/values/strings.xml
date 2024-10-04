@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="info_button_content_desc">Info button</string>
+    <string name="add_todo_content_desc">add TODO</string>
+    <string name="importance_icon_content_desc">importance icon</string>
+    <string name="main_large_title">Мои дела</string>
+    <string name="main_title">Выполнено — 0</string>
+
+    <string name="delete_todo">нажмите чтобы удалить заметку</string>
+    <string name="complete_todo">нажмите чтобы выполнить дело</string>
+
+    <string name="todo_delete">"Удалить заметку"</string>
+    <string name="cancel">"Отмена"</string>
+    <string name="ok">"Готово"</string>
+
+    <string name="delete_button">Удалить</string>
+
+</resources>
