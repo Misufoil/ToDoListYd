@@ -2,6 +2,7 @@ package com.example.todo_list.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.WorkManager
 import com.example.domain.model.RequestResult
 import com.example.todo_list.TodoListInteractor
 import com.example.todo_list.models.TodoUI
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class TodoListViewModel @Inject constructor(
-    private val interactor: TodoListInteractor
+    private val interactor: TodoListInteractor,
+    private val workManager: WorkManager
 ) : ViewModel() {
 
     val state: StateFlow<State> = interactor.getAllTodo()
@@ -53,6 +55,10 @@ internal class TodoListViewModel @Inject constructor(
             }
             lastDeletedTodo = null
         }
+    }
+
+    fun deleteWorker(todo: TodoUI) {
+        workManager.cancelUniqueWork(todo.text)
     }
 }
 

@@ -1,6 +1,10 @@
 package com.example.todolistyd.di
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
+import androidx.core.app.NotificationManagerCompat
+import androidx.work.WorkManager
 import com.example.database.TodoDatabase
 import com.example.database.todoDatabase
 import com.example.todo_add_edit.TodoAddEditInteractor
@@ -36,5 +40,26 @@ interface AppModule {
         @Provides
         @Singleton
         fun provideAppCoroutineDispatchers(): AppDispatchers = AppDispatchers()
+
+        @Singleton
+        @Provides
+        fun provideNotificationManager(
+            @ApplicationContext context: Context
+        ): NotificationManagerCompat {
+            val notificationManager = NotificationManagerCompat.from(context)
+            val channel = NotificationChannel(
+                "todo_channel",
+                "Main Channel",
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            notificationManager.createNotificationChannel(channel)
+            return notificationManager
+        }
+
+        @Provides
+        @Singleton
+        fun provideWorkManager(@ApplicationContext context: Context): WorkManager {
+            return WorkManager.getInstance(context)
+        }
     }
 }

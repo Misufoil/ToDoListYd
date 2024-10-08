@@ -52,17 +52,17 @@ dependencies {
 
     implementation(libs.androidx.navigation.compose)
 
-    implementation(libs.androidx.hilt)
-
     implementation(libs.dagger.hilt.android)
+    implementation(libs.androidx.hilt)
+    implementation(libs.androidx.hilt.work)
     kapt(libs.dagger.hilt.compiler)
+    kapt(libs.androidx.hilt.compiler)
 
     implementation(libs.toolbar)
 
-    //swipe
     implementation(libs.swipe)
 
-
+    implementation(libs.androidx.work)
 
 
     implementation(project(":todo-utils"))

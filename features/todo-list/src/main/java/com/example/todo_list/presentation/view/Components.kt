@@ -18,10 +18,10 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.example.app_uikit.R
 import com.example.app_uikit.theme.ToDoListTheme
 import com.example.todo_list.models.TodoUI
 import com.example.todo_utils.Priority
+import com.example.app_uikit.R as uikitR
 
 
 @Composable
@@ -49,8 +49,8 @@ internal fun TodoItemComponent(
             Icon(
                 imageVector = ImageVector.vectorResource(
                     when (todo.priority) {
-                        Priority.HIGH -> R.drawable.double_carefully
-                        else -> R.drawable.arrow_down
+                        Priority.HIGH -> uikitR.drawable.double_carefully
+                        else -> uikitR.drawable.arrow_down
                     }
                 ),
                 tint = when (todo.priority) {
@@ -94,7 +94,7 @@ internal fun TodoItemComponent(
         }
 
         Icon(
-            imageVector = ImageVector.vectorResource(R.drawable.info_outline),
+            imageVector = ImageVector.vectorResource(uikitR.drawable.info_outline),
             tint = ToDoListTheme.customColorsPalette.label_tertiary,
             modifier = modifier
                 .padding(2.dp)

@@ -34,9 +34,11 @@ import com.example.todo_add_edit.presentation.view.ErrorMessage
 import com.example.todo_add_edit.presentation.view.PriorityComponent
 import com.example.todo_add_edit.presentation.view.ProgressIndicator
 import com.example.todo_add_edit.presentation.view.TextFieldComponent
+import com.example.todo_add_edit.presentation.view.TimePickerDialog
 import com.example.todo_add_edit.presentation.viewmodel.State
 import com.example.todo_add_edit.presentation.viewmodel.TodoAddEditViewModel
 import com.example.todo_utils.Priority
+import com.example.todo_utils.getCurrentTimeString
 import com.example.app_uikit.R as uikitR
 
 @Composable
@@ -66,16 +68,21 @@ fun TodoAddEditFeature(
                     toastMessageState = viewModel.toastMessageState.collectAsState().value,
                     todoUiState = viewModel.uiState.collectAsState().value,
                     dateDialogState = viewModel.dateDialogState.collectAsState().value,
+                    timeDialogState = viewModel.timeDialogState.collectAsState().value,
                     switchState = viewModel.switchState.collectAsState().value,
                     updateDateDialogState = { show: Boolean ->
                         viewModel.updateDateDialogState(
                             show
                         )
                     },
+                    updateTimeDialogState = { show: Boolean ->
+                        viewModel.updateTimeDialogState(
+                            show
+                        )
+                    },
                     updateSwitchState = { state: Boolean -> viewModel.updateSwitchState(state) },
                     onTextChange = { text: String -> viewModel.onTextChange(text) },
                     onPriorityChange = { priority: Priority -> viewModel.onPriorityChange(priority) },
-                    onDeadlineChange = { deadline: Long -> viewModel.onDeadLineChange(deadline) },
                     onToastMessageStateChange = { text: String? ->
                         viewModel.onToastMessageStateChange(
                             text
@@ -83,6 +90,12 @@ fun TodoAddEditFeature(
                     },
                     changeDeleteDialogState = { state: Boolean ->
                         viewModel.changeDeleteDialogState(state)
+                    },
+                    onDateSelected = { date: Long ->
+                        viewModel.onDateSelected(date)
+                    },
+                    onTimeSelected = { hour: Int, minute: Int ->
+                        viewModel.onTimeSelected(hour, minute)
                     }
                 )
             }
@@ -110,14 +123,17 @@ fun TodoScreen(
     toastMessageState: String?,
     todoUiState: TodoUI,
     dateDialogState: Boolean,
+    timeDialogState: Boolean,
     switchState: Boolean,
     updateDateDialogState: (Boolean) -> Unit,
+    updateTimeDialogState: (Boolean) -> Unit,
     updateSwitchState: (Boolean) -> Unit,
     onTextChange: (String) -> Unit,
     onPriorityChange: (Priority) -> Unit,
-    onDeadlineChange: (Long) -> Unit,
     onToastMessageStateChange: (String?) -> Unit,
     changeDeleteDialogState: (Boolean) -> Unit,
+    onDateSelected: (Long) -> Unit,
+    onTimeSelected: (Int, Int) -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -170,8 +186,21 @@ fun TodoScreen(
             showDateDialog = dateDialogState,
             updateDateDialogState = updateDateDialogState,
             updateSwitchState = updateSwitchState,
-            onDateChange = onDeadlineChange,
+            onDateChange = onDateSelected,
             date = todoUiState.deadLine
+        )
+    }
+
+    if (timeDialogState) {
+        TimePickerDialog(
+            onConfirm = { timePickerState ->
+                onTimeSelected(timePickerState.hour, timePickerState.minute)
+            },
+            onCancel = {
+                updateTimeDialogState(false)
+                updateSwitchState(false)
+            },
+            time = getCurrentTimeString()
         )
     }
 

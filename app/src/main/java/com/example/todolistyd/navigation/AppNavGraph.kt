@@ -35,6 +35,8 @@ fun AppNavGraph(
             ExitTransition.None
         }
     ) {
+
+
         composable(
             route = LIST_SCREEN,
         ) {

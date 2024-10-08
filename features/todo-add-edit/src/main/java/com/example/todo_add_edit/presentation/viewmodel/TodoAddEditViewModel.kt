@@ -6,22 +6,31 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.example.domain.model.RequestResult
+import com.example.todo_add_edit.DeadlineNotificationWorker
 import com.example.todo_add_edit.TodoAddEditInteractor
 import com.example.todo_add_edit.models.TodoUI
 import com.example.todo_utils.Priority
+import com.example.todo_utils.combineDateAndTime
 import com.example.todo_utils.convertLongToStringDate
+import com.example.todo_utils.convertStringToDateTimeLong
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
 internal class TodoAddEditViewModel @Inject constructor(
     val interactor: TodoAddEditInteractor,
+    private val workManager: WorkManager,
     savedStateHandle: SavedStateHandle
 ) :
     ViewModel() {
@@ -38,11 +47,16 @@ internal class TodoAddEditViewModel @Inject constructor(
     private var _dateDialogState: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val dateDialogState: StateFlow<Boolean> = _dateDialogState.asStateFlow()
 
+    private var _timeDialogState: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val timeDialogState: StateFlow<Boolean> = _timeDialogState.asStateFlow()
+
     private var _switchState: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val switchState: StateFlow<Boolean> = _switchState.asStateFlow()
 
     private var _toastMessageState: MutableStateFlow<String?> = MutableStateFlow(null)
     val toastMessageState: StateFlow<String?> = _toastMessageState.asStateFlow()
+
+    private var _selectedDate: MutableStateFlow<Long?> = MutableStateFlow(null)
 
     init {
         val savedParam = savedStateHandle.get<String>("todoId")?.toInt()
@@ -99,6 +113,10 @@ internal class TodoAddEditViewModel @Inject constructor(
         _dateDialogState.update { show }
     }
 
+    fun updateTimeDialogState(show: Boolean) {
+        _timeDialogState.update { show }
+    }
+
     fun updateSwitchState(state: Boolean) {
         if (!state) {
             _uiState.update {
@@ -120,9 +138,9 @@ internal class TodoAddEditViewModel @Inject constructor(
         }
     }
 
-    fun onDeadLineChange(deadline: Long) {
+    private fun onDeadLineChange(deadline: String) {
         _uiState.update {
-            it.copy(deadLine = convertLongToStringDate(deadline))
+            it.copy(deadLine = deadline)
         }
     }
 
@@ -130,11 +148,31 @@ internal class TodoAddEditViewModel @Inject constructor(
         _toastMessageState.update { toastText }
     }
 
+    fun onDateSelected(date: Long) {
+        _selectedDate.update { date }
+        updateTimeDialogState(true)
+    }
+
+    fun onTimeSelected(hour: Int, minute: Int) {
+        _selectedDate.value?.let { date ->
+            val deadline = combineDateAndTime(date, hour, minute)
+            onDeadLineChange(deadline)
+        }
+        updateTimeDialogState(false)
+    }
+
     private suspend fun saveTodo() {
         if (uiState.value.text.isEmpty()) {
             onToastMessageStateChange("Нельзя сохранить пустой текст")
             return
         }
+
+        interactor.addTodo(uiState.value)
+
+        if (uiState.value.deadLine != null) {
+            scheduleTodoNotification()
+        }
+    }
 
 //        val id = uiState.value.id
 
@@ -148,12 +186,37 @@ internal class TodoAddEditViewModel @Inject constructor(
 //        }
 
 
-        interactor.addTodo(uiState.value)
-    }
-
     private suspend fun initUi(todoUI: TodoUI) {
         _uiState.emit(todoUI)
         updateSwitchState(todoUI.deadLine != null)
+    }
+
+    private fun scheduleTodoNotification() {
+        val notificationWork = OneTimeWorkRequestBuilder<DeadlineNotificationWorker>()
+            .setInitialDelay(
+                convertStringToDateTimeLong(uiState.value.deadLine!!) - System.currentTimeMillis(),
+                TimeUnit.MILLISECONDS
+            )
+            .setInputData(
+                workDataOf(
+                    "todoTitle" to uiState.value.text,
+                    "todoDeadline" to uiState.value.deadLine,
+                    "priority" to when (uiState.value.priority) {
+                        Priority.HIGH -> "высокая"
+                        Priority.NORMAL -> "средняя"
+                        Priority.LOW -> "низкая"
+                    }
+                )
+            )
+            .build()
+
+        //Нужно как-то по id
+
+        workManager.enqueueUniqueWork(
+            uiState.value.text,
+            ExistingWorkPolicy.REPLACE,
+            notificationWork
+        )
     }
 }
 

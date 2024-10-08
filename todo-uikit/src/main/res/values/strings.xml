@@ -16,4 +16,8 @@
 
     <string name="delete_button">Удалить</string>
 
+    <string name="select_time">Выберите время</string>
+
+    <string name="input_mode">Переключить в режим ввода</string>
+    <string name="selection_mode">Переключить в режим выбора</string>
 </resources>

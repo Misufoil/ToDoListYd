@@ -51,11 +51,16 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
 
     implementation(libs.dagger.hilt.android)
+    implementation(libs.androidx.hilt.common)
+    implementation(libs.androidx.hilt.work)
     kapt(libs.dagger.hilt.compiler)
+    kapt(libs.androidx.hilt.compiler)
 
     implementation(libs.androidx.navigation.compose)
 
     implementation(libs.core.splashscreen)
+
+    implementation(libs.androidx.work)
 
     implementation(project(":features:todo-list"))
     implementation(project(":features:todo-add-edit"))

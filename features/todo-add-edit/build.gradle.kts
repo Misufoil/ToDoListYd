@@ -53,8 +53,14 @@ dependencies {
 
     implementation(libs.androidx.hilt)
 
+    implementation(libs.androidx.work)
+
     implementation(libs.dagger.hilt.android)
+    implementation(libs.androidx.hilt.common)
+    implementation(libs.androidx.hilt.work)
     kapt(libs.dagger.hilt.compiler)
+    kapt(libs.androidx.hilt.compiler)
+
 
     implementation(project(":todo-utils"))
     implementation(project(":domain"))

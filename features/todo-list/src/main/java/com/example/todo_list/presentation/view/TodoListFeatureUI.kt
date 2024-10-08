@@ -1,5 +1,6 @@
 package com.example.todo_list.presentation.view
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -128,6 +129,7 @@ fun TodoListFeatureUI(
                     completeTodo = { todo: TodoUI -> viewModel.completeTodo(todo) },
                     deleteTodo = { todo: TodoUI -> viewModel.deleteTodo(todo) },
                     undoDelete = { viewModel.undoDelete() },
+                    deleteWorker = { todo: TodoUI -> viewModel.deleteWorker(todo) },
                     snackBarHostState = snackBarHostState
                 )
             }
@@ -172,6 +174,7 @@ private fun TodoList(
     completeTodo: (TodoUI) -> Unit,
     deleteTodo: (TodoUI) -> Unit,
     undoDelete: () -> Unit,
+    deleteWorker: (TodoUI) -> Unit,
     snackBarHostState: SnackbarHostState,
     modifier: Modifier = Modifier,
 ) {
@@ -200,7 +203,11 @@ private fun TodoList(
                                 ).let { result ->
                                     if (result == SnackbarResult.ActionPerformed) {
                                         undoDelete()
+                                    } else {
+                                        Log.d("deleteWorker", "Reminder name ${todoItem.text}")
+                                        deleteWorker(todoItem)
                                     }
+
                                 }
                         }
                     },
