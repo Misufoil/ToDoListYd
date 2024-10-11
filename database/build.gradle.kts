@@ -47,10 +47,5 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.dagger.hilt.android)
 
-
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-
     implementation(project(":todo-utils"))
 }

@@ -16,7 +16,6 @@ import com.example.todo_add_edit.TodoAddEditInteractor
 import com.example.todo_add_edit.models.TodoUI
 import com.example.todo_utils.Priority
 import com.example.todo_utils.combineDateAndTime
-import com.example.todo_utils.convertLongToStringDate
 import com.example.todo_utils.convertStringToDateTimeLong
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,10 +35,8 @@ internal class TodoAddEditViewModel @Inject constructor(
     ViewModel() {
 
     var state: State = State.Loading()
-        private set
 
     var showDeleteDialog by mutableStateOf(false)
-        private set
 
     private val _uiState: MutableStateFlow<TodoUI> = MutableStateFlow(TodoUI.empty)
     val uiState: StateFlow<TodoUI> = _uiState.asStateFlow()

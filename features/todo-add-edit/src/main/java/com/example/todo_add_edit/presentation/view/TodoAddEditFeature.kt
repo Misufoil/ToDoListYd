@@ -1,4 +1,4 @@
-package com.example.todo_list.view
+package com.example.todo_add_edit.presentation.view
 
 import android.widget.Toast
 import androidx.compose.foundation.clickable
@@ -26,15 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.app_uikit.theme.ToDoListTheme
 import com.example.todo_add_edit.models.TodoUI
-import com.example.todo_add_edit.presentation.view.DatePickerDialog
-import com.example.todo_add_edit.presentation.view.DeadlineComponent
-import com.example.todo_add_edit.presentation.view.DeleteConfirmationDialog
-import com.example.todo_add_edit.presentation.view.DeleteTodoComponent
-import com.example.todo_add_edit.presentation.view.ErrorMessage
-import com.example.todo_add_edit.presentation.view.PriorityComponent
-import com.example.todo_add_edit.presentation.view.ProgressIndicator
-import com.example.todo_add_edit.presentation.view.TextFieldComponent
-import com.example.todo_add_edit.presentation.view.TimePickerDialog
 import com.example.todo_add_edit.presentation.viewmodel.State
 import com.example.todo_add_edit.presentation.viewmodel.TodoAddEditViewModel
 import com.example.todo_utils.Priority

@@ -9,13 +9,16 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/activity" />
+            <option value="$PROJECT_DIR$/activity/main-activity-api" />
+            <option value="$PROJECT_DIR$/activity/main-activity-impl" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/core-utiles" />
             <option value="$PROJECT_DIR$/database" />
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/todo-add-edit" />
             <option value="$PROJECT_DIR$/features/todo-list" />
+            <option value="$PROJECT_DIR$/navigation" />
             <option value="$PROJECT_DIR$/todo-uikit" />
             <option value="$PROJECT_DIR$/todo-utils" />
           </set>

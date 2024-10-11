@@ -10,6 +10,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.example.main_activity_api.MainActivityLauncher
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import com.example.app_uikit.R as uikitR
@@ -18,7 +19,8 @@ import com.example.app_uikit.R as uikitR
 class DeadlineNotificationWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val notificationManager: NotificationManagerCompat
+    private val notificationManager: NotificationManagerCompat,
+    private val mainActivityLauncher: MainActivityLauncher
 ) : Worker(context, workerParams) {
 
     override fun doWork(): Result {
@@ -34,30 +36,30 @@ class DeadlineNotificationWorker @AssistedInject constructor(
         }
     }
 
-
     private fun sendNotification(todoTitle: String?, todoDeadline: String?, priority: String?) {
         Log.d("sendNotification", "Reminder name $todoTitle, description $todoDeadline")
 
 
+//        TODO("Тут")
+//        val pendingIntent = PendingIntent.getActivity(
+//            applicationContext,
+//            0,
+//            ,
+//            PendingIntent.FLAG_UPDATE_CURRENT
+//        )
+
         val notification = NotificationCompat.Builder(applicationContext, "todo_channel")
-            .setContentTitle(todoTitle)
-            .setContentText("$todoDeadline\nВажность: $priority")
+            .setContentTitle(todoTitle).setContentText("$todoDeadline\nВажность: $priority")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setSmallIcon(uikitR.drawable.baseline_today_24)
+//            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
 
         if (ActivityCompat.checkSelfPermission(
-                applicationContext,
-                Manifest.permission.POST_NOTIFICATIONS
+                applicationContext, Manifest.permission.POST_NOTIFICATIONS
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            Log.d("aaaaa", "Reminder name , description $todoDeadline")
+            Log.d("POST_NOTIFICATIONS", "Reminder name , description $todoDeadline")
         }
 
         notificationManager.notify(1, notification.build())

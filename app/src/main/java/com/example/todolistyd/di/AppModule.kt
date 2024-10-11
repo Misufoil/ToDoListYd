@@ -7,6 +7,8 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.work.WorkManager
 import com.example.database.TodoDatabase
 import com.example.database.todoDatabase
+import com.example.main_activity_api.MainActivityLauncher
+import com.example.main_activity_impl.MainActivityLauncherImpl
 import com.example.todo_add_edit.TodoAddEditInteractor
 import com.example.todo_add_edit.TodoAddEditInteractorImpl
 import com.example.todo_list.TodoListInteractor
@@ -23,6 +25,9 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 interface AppModule {
+
+    @Binds
+    fun bindMainActivity(activity: MainActivityLauncherImpl): MainActivityLauncher
 
     @Binds
     fun bindTodoListInteractor(interactor: TodoListInteractorImpl): TodoListInteractor

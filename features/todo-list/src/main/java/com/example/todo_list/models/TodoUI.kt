@@ -3,7 +3,6 @@ package com.example.todo_list.models
 import androidx.compose.runtime.Immutable
 import com.example.domain.model.Todo
 import com.example.todo_utils.Priority
-import kotlin.random.Random
 
 @Immutable
 data class TodoUI(
@@ -39,6 +38,7 @@ internal fun Todo.toTodoUI(): TodoUI {
         deadLine = deadLine
     )
 }
+
 internal fun TodoUI.toTodo(): Todo {
     return Todo(
         id = id,

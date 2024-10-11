@@ -58,8 +58,6 @@ dependencies {
 
     implementation(libs.androidx.navigation.compose)
 
-    implementation(libs.core.splashscreen)
-
     implementation(libs.androidx.work)
 
     implementation(project(":features:todo-list"))
@@ -67,4 +65,6 @@ dependencies {
     implementation(project(":todo-uikit"))
     implementation(project(":todo-utils"))
     implementation(project(":database"))
+    implementation(project(":activity:main-activity-impl"))
+    implementation(project(":activity:main-activity-api"))
 }

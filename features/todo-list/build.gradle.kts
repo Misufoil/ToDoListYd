@@ -68,8 +68,4 @@ dependencies {
     implementation(project(":todo-utils"))
     implementation(project(":domain"))
     implementation(project(":todo-uikit"))
-
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 }

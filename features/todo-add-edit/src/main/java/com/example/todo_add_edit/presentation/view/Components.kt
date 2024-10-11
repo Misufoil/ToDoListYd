@@ -1,6 +1,5 @@
 package com.example.todo_add_edit.presentation.view
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -32,13 +31,10 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.example.app_uikit.theme.ToDoListTheme
 import com.example.todo_utils.Priority
-import com.example.todo_utils.convertStringDateTimeToLong
-import java.time.LocalDate
 import com.example.app_uikit.R as uikitR
 
 @Composable
@@ -213,3 +209,10 @@ fun DeleteTodoComponent(
         )
     }
 }
+
+
+//fun Context.getActivity(): ComponentActivity? = when (this) {
+//    is ComponentActivity -> this
+//    is ContextWrapper -> baseContext.getActivity()
+//    else -> null
+//}

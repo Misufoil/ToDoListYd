@@ -61,12 +61,8 @@ dependencies {
     kapt(libs.dagger.hilt.compiler)
     kapt(libs.androidx.hilt.compiler)
 
-
+    implementation(project(":activity:main-activity-api"))
     implementation(project(":todo-utils"))
     implementation(project(":domain"))
     implementation(project(":todo-uikit"))
-
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 }

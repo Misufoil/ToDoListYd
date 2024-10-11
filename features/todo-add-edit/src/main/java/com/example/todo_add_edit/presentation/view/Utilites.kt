@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import com.example.todo_add_edit.presentation.viewmodel.State
 
 @Composable
-internal fun ErrorMessage(state: State.Error,  padding: PaddingValues) {
+internal fun ErrorMessage(state: State.Error, padding: PaddingValues) {
     Box(
         modifier = Modifier
             .fillMaxWidth()

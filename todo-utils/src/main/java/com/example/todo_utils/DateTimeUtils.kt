@@ -35,10 +35,10 @@ fun convertStringDateToLong(strDate: String): Long {
 fun convertStringTimeToLong(timeStr: String): Long {
     val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
     val time = LocalTime.parse(timeStr, timeFormatter)
-    // Используем текущую дату для создания LocalDateTime
+
     val currentDate = LocalDate.now()
     val dateTime = LocalDateTime.of(currentDate, time)
-    // Преобразуем в миллисекунды с начала эпохи
+
     return dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 }
 
