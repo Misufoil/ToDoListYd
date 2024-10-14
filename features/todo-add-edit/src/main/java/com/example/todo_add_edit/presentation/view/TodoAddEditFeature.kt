@@ -34,7 +34,7 @@ import com.example.app_uikit.R as uikitR
 
 @Composable
 fun TodoAddEditFeature(
-    onPopBackStack: () -> Boolean,
+    onPopBackStack: () -> Unit,
     padding: PaddingValues,
 ) {
     val viewModel: TodoAddEditViewModel = hiltViewModel()
@@ -164,7 +164,7 @@ fun TodoScreen(
             )
 
             DeleteTodoComponent(
-                isButtonEnabled = todoUiState.id != null,
+                isButtonEnabled = true,
                 onDeleteButtonClick = {
                     changeDeleteDialogState(true)
                 }
@@ -205,7 +205,7 @@ fun TodoScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopAppBar(
-    onPopBackStack: () -> Boolean,
+    onPopBackStack: () -> Unit,
     onSaveButtonClick: () -> Unit,
 ) {
     TopAppBar(

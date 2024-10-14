@@ -8,13 +8,13 @@ import com.example.todo_add_edit.models.toTodo
 import javax.inject.Inject
 
 interface TodoAddEditInteractor {
-    suspend fun getTodoById(todoId: Int): RequestResult<TodoUI>
+    suspend fun getTodoById(todoId: String): RequestResult<TodoUI>
     suspend fun addTodo(todoUI: TodoUI)
     suspend fun deleteTodo(todoUI: TodoUI)
 }
 
 class TodoAddEditInteractorImpl @Inject constructor(val repository: TodoRepository): TodoAddEditInteractor {
-    override suspend fun getTodoById(todoId: Int): RequestResult<TodoUI>  {
+    override suspend fun getTodoById(todoId: String): RequestResult<TodoUI>  {
         return repository.getTodoById(todoId).map { it.toTodo() }
     }
 

@@ -40,7 +40,7 @@ class TodoRepository @Inject constructor(
             }
     }
 
-    suspend fun getTodoById(id: Int): RequestResult<Todo> {
+    suspend fun getTodoById(id: String): RequestResult<Todo> {
         return try {
             val requestResult = database.todoDao.getById(id)
             if (requestResult != null) {

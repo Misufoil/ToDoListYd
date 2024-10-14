@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 import com.example.todo_utils.Priority
 
 @Entity(tableName = "TodoDBO")
-data class TodoDBO (
-    @PrimaryKey val id: Int?,
+data class TodoDBO(
+    @PrimaryKey val id: String,
     @ColumnInfo val text: String,
     @ColumnInfo val isDone: Boolean,
     @ColumnInfo val priority: Priority,

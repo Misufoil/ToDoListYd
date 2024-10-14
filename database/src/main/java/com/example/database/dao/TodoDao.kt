@@ -15,7 +15,7 @@ interface TodoDao {
     fun observeAll():Flow<List<TodoDBO>>
 
     @Query("SELECT * FROM TodoDBO WHERE id = :id")
-    suspend fun getById(id: Int): TodoDBO?
+    suspend fun getById(id: String): TodoDBO?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(todoDBO: TodoDBO)

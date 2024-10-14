@@ -3,10 +3,11 @@ package com.example.todo_add_edit.models
 import androidx.compose.runtime.Immutable
 import com.example.domain.model.Todo
 import com.example.todo_utils.Priority
+import java.util.UUID
 
 @Immutable
 data class TodoUI(
-    val id: Int?,
+    val id: String,
     val text: String,
     val isDone: Boolean,
     val priority: Priority,
@@ -16,7 +17,7 @@ data class TodoUI(
 ) {
     companion object {
         val empty = TodoUI(
-            id = null,
+            id = "",
             text = "",
             isDone = false,
             priority = Priority.NORMAL,

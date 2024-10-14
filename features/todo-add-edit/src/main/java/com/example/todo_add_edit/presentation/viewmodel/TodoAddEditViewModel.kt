@@ -23,12 +23,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.UUID
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
 internal class TodoAddEditViewModel @Inject constructor(
-    val interactor: TodoAddEditInteractor,
+    private val interactor: TodoAddEditInteractor,
     private val workManager: WorkManager,
     savedStateHandle: SavedStateHandle
 ) :
@@ -56,10 +57,10 @@ internal class TodoAddEditViewModel @Inject constructor(
     private var _selectedDate: MutableStateFlow<Long?> = MutableStateFlow(null)
 
     init {
-        val savedParam = savedStateHandle.get<String>("todoId")?.toInt()
-        if (savedParam == -1) {
+        val savedParam = savedStateHandle.get<String>("todoId")
+        if (savedParam == "Add") {
             val startUI = TodoUI(
-                id = null,
+                id = "",
                 text = "",
                 isDone = false,
                 priority = Priority.NORMAL,
@@ -163,6 +164,11 @@ internal class TodoAddEditViewModel @Inject constructor(
             onToastMessageStateChange("Нельзя сохранить пустой текст")
             return
         }
+        if (uiState.value.id.isEmpty()) {
+            _uiState.update {
+                it.copy(id = UUID.randomUUID().toString())
+            }
+        }
 
         interactor.addTodo(uiState.value)
 
@@ -196,6 +202,7 @@ internal class TodoAddEditViewModel @Inject constructor(
             )
             .setInputData(
                 workDataOf(
+                    "todoId" to uiState.value.id,
                     "todoTitle" to uiState.value.text,
                     "todoDeadline" to uiState.value.deadLine,
                     "priority" to when (uiState.value.priority) {

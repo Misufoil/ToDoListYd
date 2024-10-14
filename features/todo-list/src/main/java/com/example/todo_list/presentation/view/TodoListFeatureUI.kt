@@ -55,7 +55,7 @@ import com.example.app_uikit.R as uikitR
 @Composable
 fun TodoListFeatureUI(
     modifier: Modifier = Modifier,
-    navigateToAddEdit: (Int) -> Unit,
+    navigateToAddEdit: (String) -> Unit,
     padding: PaddingValues,
 ) {
     val viewModel: TodoListViewModel = hiltViewModel()
@@ -63,6 +63,7 @@ fun TodoListFeatureUI(
     val currentState = state.value
     val collapsingState = rememberCollapsingToolbarScaffoldState()
     val snackBarHostState = remember { SnackbarHostState() }
+
 
     CollapsingToolbarScaffold(
         modifier = modifier
@@ -137,7 +138,7 @@ fun TodoListFeatureUI(
 
         FloatingActionButton(
             onClick = {
-                navigateToAddEdit(-1)
+                navigateToAddEdit("Add")
             },
             shape = CircleShape,
             containerColor = ToDoListTheme.customColorsPalette.color_blue,
@@ -169,7 +170,7 @@ fun TodoListFeatureUI(
 @Suppress("NonSkippableComposable")
 @Composable
 private fun TodoList(
-    navigateToAddEdit: (Int) -> Unit,
+    navigateToAddEdit: (String) -> Unit,
     todosList: List<TodoUI>,
     completeTodo: (TodoUI) -> Unit,
     deleteTodo: (TodoUI) -> Unit,
@@ -237,7 +238,7 @@ private fun TodoList(
 
                 SwipeableActionsBox(
                     modifier = modifier.clickable {
-                        todoItem.id?.let { navigateToAddEdit(it) }
+                        todoItem.id.let { navigateToAddEdit(it) }
                     },
                     swipeThreshold = 100.dp,
                     startActions = if (todoItem.isDone) emptyList() else listOf(complete),

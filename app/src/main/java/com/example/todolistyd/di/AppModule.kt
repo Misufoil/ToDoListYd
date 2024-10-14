@@ -7,8 +7,8 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.work.WorkManager
 import com.example.database.TodoDatabase
 import com.example.database.todoDatabase
-import com.example.main_activity_api.MainActivityLauncher
-import com.example.main_activity_impl.MainActivityLauncherImpl
+import com.example.main_activity_api.MainActivityIntentRouter
+import com.example.main_activity_impl.MainActivityIntentRouterImpl
 import com.example.todo_add_edit.TodoAddEditInteractor
 import com.example.todo_add_edit.TodoAddEditInteractorImpl
 import com.example.todo_list.TodoListInteractor
@@ -27,7 +27,7 @@ import javax.inject.Singleton
 interface AppModule {
 
     @Binds
-    fun bindMainActivity(activity: MainActivityLauncherImpl): MainActivityLauncher
+    fun bindMainActivity(activity: MainActivityIntentRouterImpl): MainActivityIntentRouter
 
     @Binds
     fun bindTodoListInteractor(interactor: TodoListInteractorImpl): TodoListInteractor
@@ -51,14 +51,14 @@ interface AppModule {
         fun provideNotificationManager(
             @ApplicationContext context: Context
         ): NotificationManagerCompat {
-            val notificationManager = NotificationManagerCompat.from(context)
+            val notificationManagerCompat = NotificationManagerCompat.from(context)
             val channel = NotificationChannel(
                 "todo_channel",
                 "Main Channel",
                 NotificationManager.IMPORTANCE_HIGH
             )
-            notificationManager.createNotificationChannel(channel)
-            return notificationManager
+            notificationManagerCompat.createNotificationChannel(channel)
+            return notificationManagerCompat
         }
 
         @Provides
