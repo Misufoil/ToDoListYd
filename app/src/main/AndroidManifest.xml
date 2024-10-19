@@ -26,10 +26,13 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name="com.example.todo_add_edit.ExtendDeadlineReceiver" />
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             tools:node="remove" />
+
 
     </application>
 </manifest>

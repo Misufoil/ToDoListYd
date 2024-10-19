@@ -16,7 +16,8 @@ interface TodoListInteractor {
     suspend fun insertTodo(todoUI: TodoUI)
 }
 
-class TodoListInteractorImpl @Inject constructor(private val repository: TodoRepository): TodoListInteractor {
+class TodoListInteractorImpl @Inject constructor(private val repository: TodoRepository) :
+    TodoListInteractor {
     override fun getAllTodo(): Flow<RequestResult<List<TodoUI>>> {
         return repository.getAll().map { requestResult ->
             requestResult.map { todos ->

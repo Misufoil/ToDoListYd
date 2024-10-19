@@ -12,7 +12,6 @@ dagger = "2.51.1"
 jakarta-inject = "2.0.1"
 compose-navigation = "2.7.7"
 hilt = "1.2.0"
-
 appcompat = "1.7.0"
 material = "1.12.0"
 jetbrainsKotlinJvm = "1.9.0"

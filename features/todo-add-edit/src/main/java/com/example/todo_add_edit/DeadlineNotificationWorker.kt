@@ -3,6 +3,7 @@ package com.example.todo_add_edit
 import android.Manifest
 import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.util.Log
 import androidx.core.app.ActivityCompat
@@ -39,9 +40,23 @@ class DeadlineNotificationWorker @AssistedInject constructor(
         }
     }
 
-    private fun sendNotification(todoId: String?,todoTitle: String?, todoDeadline: String?, priority: String?) {
+    private fun sendNotification(
+        todoId: String?,
+        todoTitle: String?,
+        todoDeadline: String?,
+        priority: String?
+    ) {
         Log.d("sendNotification", "Reminder name $todoTitle, description $todoDeadline")
 
+        val extendIntent = Intent(applicationContext, ExtendDeadlineReceiver::class.java).apply {
+            putExtra("todoId", todoId)
+        }
+        val extendPendingIntent = PendingIntent.getBroadcast(
+            applicationContext,
+            0,
+            extendIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
 
         val intent = todoId?.let { mainActivityIntentRouter.launch(applicationContext, it) }
 
@@ -52,12 +67,12 @@ class DeadlineNotificationWorker @AssistedInject constructor(
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-
         val notification = NotificationCompat.Builder(applicationContext, "todo_channel")
             .setContentTitle(todoTitle).setContentText("$todoDeadline\nВажность: $priority")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setSmallIcon(uikitR.drawable.baseline_today_24)
             .setContentIntent(pendingIntent)
+            .addAction(uikitR.drawable.baseline_schedule_24, "Перенести на 24 часа", extendPendingIntent)
             .setAutoCancel(true)
 
         if (ActivityCompat.checkSelfPermission(

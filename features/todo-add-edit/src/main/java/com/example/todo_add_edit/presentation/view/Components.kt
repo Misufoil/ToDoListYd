@@ -31,6 +31,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.example.app_uikit.theme.ToDoListTheme
@@ -45,7 +46,7 @@ fun TextFieldComponent(
     TextField(
         value = text,
         onValueChange = { onTextChange(it) },
-        placeholder = { Text(text = "Что надо сделать...") },
+        placeholder = { Text(text = stringResource(uikitR.string.text_field_placeholder)) },
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 8.dp, bottom = 12.dp)
@@ -81,7 +82,7 @@ fun PriorityComponent(
             .menuAnchor()
         ) {
             Text(
-                text = "Важность",
+                text = stringResource(uikitR.string.text_priority),
                 style = ToDoListTheme.typography.bodyMedium,
                 color = ToDoListTheme.customColorsPalette.label_primary,
                 modifier = Modifier.padding(bottom = 4.dp)
@@ -97,7 +98,6 @@ fun PriorityComponent(
 
                     Priority.NORMAL -> {
                         ToDoListTheme.customColorsPalette.label_tertiary
-
                     }
 
                     Priority.LOW -> {
@@ -140,11 +140,9 @@ fun DeadlineComponent(
     updateSwitchState: (Boolean) -> Unit,
     updateDateTimeDialogState: (Boolean) -> Unit
 ) {
-
     Row(
         modifier = Modifier.fillMaxWidth(),
     ) {
-
         Column(
             modifier = Modifier.padding(bottom = 16.dp)
         ) {
@@ -155,14 +153,12 @@ fun DeadlineComponent(
                 modifier = Modifier.padding(bottom = 4.dp)
             )
 
-//            if (deadline != null) {
             Text(
                 text = deadline ?: "",
                 style = ToDoListTheme.typography.bodySmall,
                 color = ToDoListTheme.customColorsPalette.color_blue,
                 modifier = Modifier.alpha(if (deadline != null) 1f else 0f)
             )
-//            }
         }
 
         Spacer(modifier = Modifier.weight(1f))
@@ -209,10 +205,3 @@ fun DeleteTodoComponent(
         )
     }
 }
-
-
-//fun Context.getActivity(): ComponentActivity? = when (this) {
-//    is ComponentActivity -> this
-//    is ContextWrapper -> baseContext.getActivity()
-//    else -> null
-//}

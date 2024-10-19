@@ -1,5 +1,6 @@
 package com.example.todo_add_edit.presentation.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -32,8 +33,7 @@ internal class TodoAddEditViewModel @Inject constructor(
     private val interactor: TodoAddEditInteractor,
     private val workManager: WorkManager,
     savedStateHandle: SavedStateHandle
-) :
-    ViewModel() {
+): ViewModel() {
 
     var state: State = State.Loading()
 
@@ -102,6 +102,7 @@ internal class TodoAddEditViewModel @Inject constructor(
     }
 
     fun deleteTodo() {
+        deleteWorker(uiState.value.id)
         viewModelScope.launch {
             interactor.deleteTodo(uiState.value)
         }
@@ -136,12 +137,6 @@ internal class TodoAddEditViewModel @Inject constructor(
         }
     }
 
-    private fun onDeadLineChange(deadline: String) {
-        _uiState.update {
-            it.copy(deadLine = deadline)
-        }
-    }
-
     fun onToastMessageStateChange(toastText: String?) {
         _toastMessageState.update { toastText }
     }
@@ -159,6 +154,17 @@ internal class TodoAddEditViewModel @Inject constructor(
         updateTimeDialogState(false)
     }
 
+    private fun deleteWorker(id: String) {
+        val result = workManager.cancelUniqueWork(id).result
+        Log.d("deleteWorker", result.toString())
+    }
+
+    private fun onDeadLineChange(deadline: String) {
+        _uiState.update {
+            it.copy(deadLine = deadline)
+        }
+    }
+
     private suspend fun saveTodo() {
         if (uiState.value.text.isEmpty()) {
             onToastMessageStateChange("Нельзя сохранить пустой текст")
@@ -174,20 +180,10 @@ internal class TodoAddEditViewModel @Inject constructor(
 
         if (uiState.value.deadLine != null) {
             scheduleTodoNotification()
+        } else {
+            deleteWorker(id = uiState.value.id)
         }
     }
-
-//        val id = uiState.value.id
-
-//        if (id != null) {
-//            val existingTodo = interactor.getTodoById(todoId = id)
-//
-//            if (existingTodo is RequestResult.Success && existingTodo.data.id != id) {
-//                onToastMessageStateChange("Заметка с таким названием уже существует.")
-//                return
-//            }
-//        }
-
 
     private suspend fun initUi(todoUI: TodoUI) {
         _uiState.emit(todoUI)
@@ -214,10 +210,8 @@ internal class TodoAddEditViewModel @Inject constructor(
             )
             .build()
 
-        //Нужно как-то по id
-
         workManager.enqueueUniqueWork(
-            uiState.value.text,
+            uiState.value.id,
             ExistingWorkPolicy.REPLACE,
             notificationWork
         )

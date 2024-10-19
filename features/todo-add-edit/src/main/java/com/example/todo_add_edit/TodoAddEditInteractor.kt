@@ -11,10 +11,12 @@ interface TodoAddEditInteractor {
     suspend fun getTodoById(todoId: String): RequestResult<TodoUI>
     suspend fun addTodo(todoUI: TodoUI)
     suspend fun deleteTodo(todoUI: TodoUI)
+    suspend fun updateDeadline(id: String, newDeadline: String)
 }
 
-class TodoAddEditInteractorImpl @Inject constructor(val repository: TodoRepository): TodoAddEditInteractor {
-    override suspend fun getTodoById(todoId: String): RequestResult<TodoUI>  {
+class TodoAddEditInteractorImpl @Inject constructor(val repository: TodoRepository) :
+    TodoAddEditInteractor {
+    override suspend fun getTodoById(todoId: String): RequestResult<TodoUI> {
         return repository.getTodoById(todoId).map { it.toTodo() }
     }
 
@@ -24,5 +26,9 @@ class TodoAddEditInteractorImpl @Inject constructor(val repository: TodoReposito
 
     override suspend fun deleteTodo(todoUI: TodoUI) {
         repository.deleteTodoToLocalBD(todoUI.toTodo())
+    }
+
+    override suspend fun updateDeadline(id: String, newDeadline: String) {
+        repository.updateDeadline(id, newDeadline)
     }
 }

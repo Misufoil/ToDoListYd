@@ -24,13 +24,13 @@ internal class TodoListViewModel @Inject constructor(
         .map { it.toState() }
         .stateIn(viewModelScope, SharingStarted.Lazily, State.None)
 
-    private var lastDeletedTodo: TodoUI? = null
-
     val completedTasks: StateFlow<Int> = state
         .map { state ->
             state.todos?.count { it.isDone } ?: 0
         }
         .stateIn(viewModelScope, SharingStarted.Lazily, 0)
+
+    private var lastDeletedTodo: TodoUI? = null
 
     fun completeTodo(todoUI: TodoUI) {
         viewModelScope.launch {
@@ -55,7 +55,7 @@ internal class TodoListViewModel @Inject constructor(
     }
 
     fun deleteWorker(todo: TodoUI) {
-        workManager.cancelUniqueWork(todo.text)
+        workManager.cancelUniqueWork(todo.id)
     }
 }
 

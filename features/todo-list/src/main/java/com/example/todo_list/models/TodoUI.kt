@@ -13,19 +13,7 @@ data class TodoUI(
     val creationDate: String,
     val refactorData: String?,
     val deadLine: String?,
-) {
-    companion object {
-        val empty = TodoUI(
-            id = "",
-            text = "",
-            isDone = false,
-            priority = Priority.NORMAL,
-            creationDate = "",
-            refactorData = null,
-            deadLine = null,
-        )
-    }
-}
+)
 
 internal fun Todo.toTodoUI(): TodoUI {
     return TodoUI(

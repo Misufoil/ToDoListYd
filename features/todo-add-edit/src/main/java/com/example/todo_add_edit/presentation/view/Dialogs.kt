@@ -151,7 +151,6 @@ fun TimePickerDialog(
         is24Hour = true,
     )
 
-
     PickerDialog(
         modifier = modifier,
         onDismissRequest = onCancel,
@@ -199,7 +198,6 @@ fun PickerDialog(
             tonalElevation = 6.dp,
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                // Title
                 CompositionLocalProvider(LocalContentColor provides ToDoListTheme.colorScheme.onSurfaceVariant) {
                     ProvideTextStyle(ToDoListTheme.typography.labelLarge) {
                         Box(
@@ -212,11 +210,9 @@ fun PickerDialog(
                         }
                     }
                 }
-                // Content
                 CompositionLocalProvider(LocalContentColor provides AlertDialogDefaults.textContentColor) {
                     content()
                 }
-                // Buttons
                 CompositionLocalProvider(LocalContentColor provides ToDoListTheme.colorScheme.primary) {
                     ProvideTextStyle(ToDoListTheme.typography.labelLarge) {
                         Row(
@@ -249,7 +245,6 @@ private fun DisplayModeToggleButton(
             Icon(
                 painter = painterResource(id = uikitR.drawable.baseline_keyboard_24),
                 contentDescription = stringResource(id = uikitR.string.input_mode),
-                //"Switch to input mode"
             )
         }
 
@@ -260,7 +255,6 @@ private fun DisplayModeToggleButton(
             Icon(
                 painter = painterResource(id = uikitR.drawable.baseline_schedule_24),
                 contentDescription = stringResource(id = uikitR.string.selection_mode),
-                //"Switch to picker mode"
             )
         }
     }

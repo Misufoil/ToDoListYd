@@ -188,14 +188,12 @@ private fun TodoList(
         color = ToDoListTheme.customColorsPalette.back_secondary
     ) {
         LazyColumn(modifier = modifier.padding(vertical = 8.dp)) {
-            items(items = todosList, key = { item: TodoUI -> item.id!! }) { todoItem ->
+            items(items = todosList, key = { item: TodoUI -> item.id }) { todoItem ->
                 val delete = SwipeAction(
                     onSwipe = {
                         coroutineScope.launch {
                             snackBarHostState.currentSnackbarData?.dismiss()
-
                             deleteTodo(todoItem)
-
                             snackBarHostState
                                 .showSnackbar(
                                     message = "Заметка удалена",
@@ -224,7 +222,11 @@ private fun TodoList(
                 )
 
                 val complete = SwipeAction(
-                    onSwipe = { completeTodo(todoItem) },
+                    onSwipe = {
+                        completeTodo(todoItem)
+                        deleteWorker(todoItem)
+                    },
+
                     icon = {
                         Icon(
                             imageVector = ImageVector.vectorResource(uikitR.drawable.check),

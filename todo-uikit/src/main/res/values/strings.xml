@@ -20,4 +20,11 @@
 
     <string name="input_mode">Переключить в режим ввода</string>
     <string name="selection_mode">Переключить в режим выбора</string>
+
+    <string name="text_field_placeholder">Что надо сделать...</string>
+    <string name="text_priority">Важность</string>
+
+
+
+
 </resources>

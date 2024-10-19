@@ -54,6 +54,10 @@ class TodoRepository @Inject constructor(
 
     }
 
+    suspend fun updateDeadline(id: String, newDeadline: String) {
+        database.todoDao.updateDeadline(id, newDeadline)
+    }
+
     suspend fun insertTodoToLocalBD(todo: Todo) {
         database.todoDao.insert(todo.toTodoDBO())
     }

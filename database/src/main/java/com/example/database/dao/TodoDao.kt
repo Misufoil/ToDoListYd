@@ -23,4 +23,7 @@ interface TodoDao {
     @Delete
     suspend fun delete(todoDBO: TodoDBO)
 
+    @Query("UPDATE TodoDBO SET deadLine = :newDeadline WHERE id = :id")
+    suspend fun updateDeadline(id: String, newDeadline: String)
+
 }
