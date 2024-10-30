@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.app_uikit.theme.ToDoListTheme
+import com.example.todo_utils.convertStringDateTimeToTime
 import com.example.todo_utils.convertStringDateToLong
 import java.time.LocalDate
 import java.time.ZoneOffset
@@ -61,12 +62,12 @@ internal fun DatePickerDialog(
     updateDateDialogState: (Boolean) -> Unit,
     updateSwitchState: (Boolean) -> Unit,
     onDateChange: (Long) -> Unit,
-    date: String?
+    deadline: String?
 ) {
     val dateState = rememberDatePickerState(
         initialSelectedDateMillis =
-        if (date != null) {
-            convertStringDateToLong(date)
+        if (deadline != null) {
+            convertStringDateToLong(deadline)
         } else {
             LocalDate.now()
                 .atStartOfDay()

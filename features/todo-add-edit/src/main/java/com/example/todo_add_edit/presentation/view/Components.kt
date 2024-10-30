@@ -144,7 +144,9 @@ fun DeadlineComponent(
         modifier = Modifier.fillMaxWidth(),
     ) {
         Column(
-            modifier = Modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = 16.dp).clickable {
+                updateDateTimeDialogState(true)
+            }
         ) {
             Text(
                 text = "Сделать до",

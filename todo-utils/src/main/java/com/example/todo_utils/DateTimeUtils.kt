@@ -1,11 +1,8 @@
 package com.example.todo_utils
 
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.time.LocalTime
-import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -15,11 +12,27 @@ fun convertLongToStringDateTime(deadlineMillis: Long): String {
     return dateFormat.format(Date(deadlineMillis))
 }
 
-fun convertStringDateToLong(strDate: String): Long {
-    val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-    val date = LocalDate.parse(strDate, dateFormatter)
-    val dateTime = date.atStartOfDay()
-    return dateTime.toInstant(ZoneOffset.UTC).toEpochMilli()
+fun convertStringDateToLong(dateTimeString: String): Long {
+//    val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+//    val date = LocalDate.parse(strDate, dateFormatter)
+//    val dateTime = date.atStartOfDay()
+//    return dateTime.toInstant(ZoneOffset.UTC).toEpochMilli()
+
+    val formatter =
+        SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.MEDIUM, SimpleDateFormat.SHORT)
+    val date = formatter.parse(dateTimeString)
+    val dateLong = date?.time ?: throw IllegalArgumentException("Неправильный формат даты/времени")
+    return dateLong
+}
+
+fun convertStringDateTimeToTime(dateTimeString: String): String {
+    val formatter =
+        SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.MEDIUM, SimpleDateFormat.SHORT)
+
+    val date = formatter.parse(dateTimeString)
+    val timeFormatter = SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT)
+
+    return timeFormatter.format(date!!)
 }
 
 fun getCurrentTimeString(): String {

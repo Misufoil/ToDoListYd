@@ -68,7 +68,8 @@ class DeadlineNotificationWorker @AssistedInject constructor(
         )
 
         val notification = NotificationCompat.Builder(applicationContext, "todo_channel")
-            .setContentTitle(todoTitle).setContentText("$todoDeadline\nВажность: $priority")
+            .setContentTitle(todoTitle)
+            .setContentText("$todoDeadline\nВажность: $priority")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setSmallIcon(uikitR.drawable.baseline_today_24)
             .setContentIntent(pendingIntent)

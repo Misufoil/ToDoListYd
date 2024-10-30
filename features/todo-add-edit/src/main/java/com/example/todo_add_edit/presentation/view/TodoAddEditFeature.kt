@@ -29,6 +29,7 @@ import com.example.todo_add_edit.models.TodoUI
 import com.example.todo_add_edit.presentation.viewmodel.State
 import com.example.todo_add_edit.presentation.viewmodel.TodoAddEditViewModel
 import com.example.todo_utils.Priority
+import com.example.todo_utils.convertStringDateTimeToTime
 import com.example.todo_utils.getCurrentTimeString
 import com.example.app_uikit.R as uikitR
 
@@ -178,7 +179,7 @@ fun TodoScreen(
             updateDateDialogState = updateDateDialogState,
             updateSwitchState = updateSwitchState,
             onDateChange = onDateSelected,
-            date = todoUiState.deadLine
+            deadline = todoUiState.deadLine
         )
     }
 
@@ -191,7 +192,7 @@ fun TodoScreen(
                 updateTimeDialogState(false)
                 updateSwitchState(false)
             },
-            time = getCurrentTimeString()
+            time = todoUiState.deadLine?.let { convertStringDateTimeToTime(it) } ?: getCurrentTimeString()
         )
     }
 

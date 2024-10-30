@@ -85,7 +85,6 @@ internal class TodoAddEditViewModel @Inject constructor(
                     println("Error fetching data: $result")
                 }
             }
-
         } else {
             state = State.Error()
         }
