@@ -1,9 +1,7 @@
 package com.example.todo_add_edit.models
 
 import androidx.compose.runtime.Immutable
-import com.example.domain.model.Todo
 import com.example.todo_utils.Priority
-import java.util.UUID
 
 @Immutable
 data class TodoUI(

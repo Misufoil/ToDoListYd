@@ -1,7 +1,6 @@
 package com.example.todo_list.models
 
 import androidx.compose.runtime.Immutable
-import com.example.domain.model.Todo
 import com.example.todo_utils.Priority
 
 @Immutable
