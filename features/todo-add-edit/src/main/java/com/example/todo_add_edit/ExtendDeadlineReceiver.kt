@@ -9,7 +9,9 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
+import com.example.domain.TodoInteractor
 import com.example.todo_add_edit.models.TodoUI
+import com.example.todo_add_edit.models.toTodo
 import com.example.todo_utils.Priority
 import com.example.todo_utils.convertLongToStringDateTime
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,7 +30,7 @@ class ExtendDeadlineReceiver : BroadcastReceiver() {
     lateinit var workManager: WorkManager
 
     @Inject
-    lateinit var interactor: TodoAddEditInteractor
+    lateinit var interactor: TodoInteractor
 
     override fun onReceive(context: Context?, intent: Intent) {
         val todoId = intent.getStringExtra("todoId")
@@ -49,7 +51,7 @@ class ExtendDeadlineReceiver : BroadcastReceiver() {
                             val newDeadline = convertLongToStringDateTime(newDeadlineMillis)
 
                             interactor.updateDeadline(todoId, newDeadline)
-                            rescheduleWork(it, newDeadlineMillis, newDeadline)
+                            rescheduleWork(it.toTodo(), newDeadlineMillis, newDeadline)
                         }
                     }
                 } catch (e: TimeoutCancellationException) {

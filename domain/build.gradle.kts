@@ -37,9 +37,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.kotlinx.courutines.android)
 
-    implementation(project(":database"))
     implementation(project(":todo-utils"))
 
     implementation(libs.jakarta.inject)
-
 }

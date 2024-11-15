@@ -11,10 +11,12 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
+import com.example.domain.TodoInteractor
 import com.example.domain.model.RequestResult
+import com.example.domain.model.map
 import com.example.todo_add_edit.DeadlineNotificationWorker
-import com.example.todo_add_edit.TodoAddEditInteractor
 import com.example.todo_add_edit.models.TodoUI
+import com.example.todo_add_edit.models.toTodo
 import com.example.todo_utils.Priority
 import com.example.todo_utils.combineDateAndTime
 import com.example.todo_utils.convertStringToDateTimeLong
@@ -30,10 +32,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class TodoAddEditViewModel @Inject constructor(
-    private val interactor: TodoAddEditInteractor,
+    private val interactor: TodoInteractor,
     private val workManager: WorkManager,
     savedStateHandle: SavedStateHandle
-): ViewModel() {
+) : ViewModel() {
 
     var state: State = State.Loading()
 
@@ -76,7 +78,7 @@ internal class TodoAddEditViewModel @Inject constructor(
             viewModelScope.launch {
                 state = State.Loading()
 
-                val result = interactor.getTodoById(savedParam)
+                val result = interactor.getTodoById(savedParam).map { it.toTodo() }
                 state = result.toState()
 
                 if (result is RequestResult.Success) {
@@ -103,7 +105,7 @@ internal class TodoAddEditViewModel @Inject constructor(
     fun deleteTodo() {
         deleteWorker(uiState.value.id)
         viewModelScope.launch {
-            interactor.deleteTodo(uiState.value)
+            interactor.deleteTodo(uiState.value.toTodo())
         }
     }
 
@@ -175,7 +177,7 @@ internal class TodoAddEditViewModel @Inject constructor(
             }
         }
 
-        interactor.addTodo(uiState.value)
+        interactor.addTodo(uiState.value.toTodo())
 
         if (uiState.value.deadLine != null) {
             scheduleTodoNotification()

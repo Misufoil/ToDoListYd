@@ -6,13 +6,11 @@ import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.WorkManager
 import com.example.database.TodoDatabase
+import com.example.database.TodoRepositoryImpl
 import com.example.database.todoDatabase
+import com.example.domain.TodoRepository
 import com.example.main_activity_api.MainActivityIntentRouter
 import com.example.main_activity_impl.MainActivityIntentRouterImpl
-import com.example.todo_add_edit.TodoAddEditInteractor
-import com.example.todo_add_edit.TodoAddEditInteractorImpl
-import com.example.todo_list.TodoListInteractor
-import com.example.todo_list.TodoListInteractorImpl
 import com.example.todo_utils.AppDispatchers
 import dagger.Binds
 import dagger.Module
@@ -30,10 +28,7 @@ interface AppModule {
     fun bindMainActivity(activity: MainActivityIntentRouterImpl): MainActivityIntentRouter
 
     @Binds
-    fun bindTodoListInteractor(interactor: TodoListInteractorImpl): TodoListInteractor
-
-    @Binds
-    fun bindTodoAddEditInteractor(interactor: TodoAddEditInteractorImpl): TodoAddEditInteractor
+    fun bindTodoRepository(repositoryImpl: TodoRepositoryImpl): TodoRepository
 
     companion object {
         @Provides

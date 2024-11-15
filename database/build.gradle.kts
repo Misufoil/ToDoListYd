@@ -47,5 +47,8 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.dagger.hilt.android)
 
+    implementation(libs.jakarta.inject)
+
     implementation(project(":todo-utils"))
+    implementation(project(":domain"))
 }

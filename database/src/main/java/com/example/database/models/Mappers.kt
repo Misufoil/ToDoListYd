@@ -1,6 +1,6 @@
-package com.example.domain.model
+package com.example.database.models
 
-import com.example.database.models.TodoDBO
+import com.example.domain.model.Todo
 
 internal fun TodoDBO.toTodo(): Todo {
     return Todo(

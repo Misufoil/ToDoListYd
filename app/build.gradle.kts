@@ -65,6 +65,7 @@ dependencies {
     implementation(project(":todo-uikit"))
     implementation(project(":todo-utils"))
     implementation(project(":database"))
+    implementation(project(":domain"))
     implementation(project(":activity:main-activity-impl"))
     implementation(project(":activity:main-activity-api"))
 }

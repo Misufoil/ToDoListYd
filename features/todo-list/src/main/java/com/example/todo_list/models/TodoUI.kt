@@ -14,27 +14,3 @@ data class TodoUI(
     val refactorData: String?,
     val deadLine: String?,
 )
-
-internal fun Todo.toTodoUI(): TodoUI {
-    return TodoUI(
-        id = id,
-        text = text,
-        isDone = isDone,
-        priority = priority,
-        creationDate = creationDate,
-        refactorData = refactorData,
-        deadLine = deadLine
-    )
-}
-
-internal fun TodoUI.toTodo(): Todo {
-    return Todo(
-        id = id,
-        text = text,
-        isDone = isDone,
-        priority = priority,
-        creationDate = creationDate,
-        refactorData = refactorData,
-        deadLine = deadLine
-    )
-}
